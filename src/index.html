@@ -18,11 +18,24 @@
 		<!-- 侧滑导航根容器 -->
 		<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
 		  <!-- 菜单容器 -->
-		  <aside class="mui-off-canvas-left" id="offCanvasSide">
+		  <aside class="mui-off-canvas-left aside" id="offCanvasSide">
 			<div class="mui-scroll-wrapper">
 			  <div class="mui-scroll">
 				<!-- 菜单具体展示内容 -->
-				侧边栏
+				<h2>收支类型</h2>
+				<ul>
+					<li>全部支出</li>
+					<li>全部收入</li>
+				</ul>
+				<h2>收支分类</h2>
+				<ul>
+					<li>餐饮</li>
+					<li>住宿</li>
+				</ul>
+				<ul>
+					<li>薪资</li>
+					<li>奖金</li>
+				</ul>
 			  </div>
 			</div>
 		  </aside>
@@ -42,26 +55,104 @@
 			<div class="mui-content">
 				<!-- 内容top -->
 				<div class="con-top">
-					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+					<span class="mui-icon mui-icon-bars open-aslide"></span>
+					<div class="tab-list">
+						<span class="tab-item active">账单</span>
+						<span class="tab-item">图表</span>
+					</div>
+					<span class="mui-icon mui-icon-bars"></span>
 				</div>
 				<!-- 内容部分 -->
 				<div class="con">
 					<!-- 账单wrap -->
 					<div class="bill-wrap">
 						
-						<!-- 按年展示的列表 -->
-						<div class="year-wrap none">
-							按年展示
-							<!-- <div class="mui-scroll-wrapper">
-								<div class="mui-scroll">
-									
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<!-- 按年展示的列表 -->
+								<div class="year-wrap none">
+									<!-- 按月展示的列表 -->
+									<div class="month-item">
+										<ul class="mui-table-view"> 
+											<li class="mui-table-view-cell mui-collapse">
+												<a class="mui-navigate-right" href="#">
+													<ol>
+														<li>
+															<span class="mui-icon mui-icon-upload"></span>
+															<span>10月</span>
+														</li>
+														<li class="red">
+															<span>花费</span>
+															<span>121</span>
+														</li>
+														<li class="green">
+															<span>收入</span>
+															<span>122</span>
+														</li>
+														<li class="gray">
+															<span>结余</span>
+															<span>10月</span>
+														</li>
+													</ol>
+												</a>
+												<div class="mui-collapse-content">
+													<ul class="mui-table-view">
+														<li class="mui-table-view-cell">
+															<div class="mui-slider-right mui-disabled">
+																<a class="mui-btn mui-btn-red">删除</a>
+															</div>
+															<div class="mui-slider-handle bill-item">
+																<dl>
+																	<dt>
+																		<span class="mui-icon mui-icon-upload"></span>
+																	</dt>
+																	<dd>住宿</dd>
+																</dl>
+																<span class="red">12434</span>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
+									</div>
 								</div>
-							</div> -->
+								<!-- 按月展示的列表 -->
+								<div class="month-wrap">
+									<!-- 以天为循环体的 -->
+									<div class="day-item">
+										<div class="day-title">
+											<div>
+												<span class="mui-icon mui-icon-image"></span>
+												12-12
+											</div>
+											<div>
+												花费<span>8032</span>
+											</div>
+										</div>
+										<div class="day-list">
+											<ul class="mui-table-view">
+												<li class="mui-table-view-cell">
+													<div class="mui-slider-right mui-disabled">
+														<a class="mui-btn mui-btn-red">删除</a>
+													</div>
+													<div class="mui-slider-handle bill-item">
+														<dl>
+															<dt>
+																<span class="mui-icon mui-icon-upload"></span>
+															</dt>
+															<dd>住宿</dd>
+														</dl>
+														<span class="red">12434</span>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<!-- 按月展示的列表 -->
-						<div class="month-wrap">
-							按月展示
-						</div>
+						
 					</div>
 					
 					<!-- 图表wrap -->

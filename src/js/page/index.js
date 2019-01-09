@@ -5,6 +5,10 @@ require(['./js/config.js'],function(){
 		function init(){
 			mui.init();
 			
+			dom('.mui-inner-wrap').addEventListener('drag', function(event) {
+				event.stopPropagation();
+			});
+			
 			//初始化时间
 			initDate();
 			
@@ -40,11 +44,13 @@ require(['./js/config.js'],function(){
 		//添加点击事件
 		
 		function addEvent(){
+			
+			var _monthWrap = dom('.month-wrap'),
+				_yearWrap = dom('.year-wrap');
+				
 			//点击年月
 			_selectStatus.addEventListener('tap',function(){
 				picker.show(function (selectItems) {
-					console.log(selectItems[0].text);//智子
-					console.log(selectItems[0].value);//zz 
 					_selectStatus.innerHTML = selectItems[0].text;
 					
 					status = selectItems[0].value;
@@ -65,6 +71,9 @@ require(['./js/config.js'],function(){
 						
 						_yPicker.style.width = '50%';
 						
+						_monthWrap.style.display = 'block';
+						_yearWrap.style.display = 'none';
+						
 					}else{  //年
 						_selectDate.innerHTML = curYear;
 						
@@ -75,6 +84,9 @@ require(['./js/config.js'],function(){
 						_yearH5.style.width = '100%';
 						
 						_yPicker.style.width = '100%';
+						
+						_monthWrap.style.display = 'none';
+						_yearWrap.style.display = 'block';
 						
 					}
 				})
@@ -95,6 +107,35 @@ require(['./js/config.js'],function(){
 				})
 			})
 			
+			//打开侧边栏
+			dom('.open-aslide').addEventListener('tap',function(){
+				mui('.mui-off-canvas-wrap').offCanvas('show');
+			})
+		
+			var _billWrap = dom('.bill-wrap'),
+				_tableWrap = dom('.table-wrap');
+			//点击tab-list
+			mui('.tab-list').on('tap','.tab-item',function(){
+				
+				
+				var text = this.innerHTML;
+				
+				var _tabItems = document.querySelectorAll('.tab-item');
+				
+				for(var i = 0;i<_tabItems.length;i++){
+					_tabItems[i].classList.remove('active');
+				}
+				
+				this.classList.add('active');
+				
+				if(text === '账单'){
+					_billWrap.style.display = 'block';
+					_tableWrap.style.display = 'none';
+				}else{
+					_billWrap.style.display = 'none';
+					_tableWrap.style.display = 'block';
+				}
+			})
 		}
 		
 		init()

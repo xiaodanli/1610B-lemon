@@ -41,21 +41,139 @@
 		flex:1;
 		display: flex;
 		flex-direction: column;
+		background: #fff;
 		.con-top{
 			width:100%;
 			height: 40px;
-			background: pink;
 		}
 		.con{
 			width:100%;
 			flex:1;
-			background: blue;
 			.bill-wrap,.table-wrap,.year-wrap,.month-wrap{
 				width:100%;
 				height: 100%;
-				background: green;
+			}
+			.bill-wrap{
+				position: relative;
 			}
 		}
 	}
 }
 
+.con-top{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding:0 10px;
+	.tab-list{
+		border:1px solid gray;
+		border-radius: 6px;
+		font-size:14px;
+		display: flex;
+		overflow: hidden;
+		span{
+			padding:0 10px;
+			&.active{
+				background: yellow;
+			}
+		}
+	}
+}
+
+.day-item{
+	width:100%;
+	.day-title{
+		width:100%;
+		height: 40px;
+		display: flex;
+		justify-content: space-between;
+		padding: 0 10px;
+		font-size:14px;
+		color:gray;
+	}
+}
+
+.bill-item{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		dl{
+			display: flex;
+			align-items: center;
+			dt{
+				background: yellow;
+				border-radius: 50%;
+				font-size:12px;
+				padding:4px;
+				margin-right:10px;
+			}
+		}
+	}
+
+.month-item{
+	width:100%;
+	ol{
+		width:90%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size:12px;
+		span{
+			display: block;
+		}
+		li{
+			&:nth-child(1){
+				span{
+					display: inline-block;
+				}
+			}
+		}
+	}
+}
+
+.red{
+	color:red;
+}
+
+.green{
+	color:green;
+}
+
+.gray{
+	color:gray;
+}
+
+.bill-wrap .mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell{
+	padding:11px 15px;
+}
+
+
+.aside{
+	&.mui-off-canvas-left, .mui-off-canvas-right{
+		background: #fff;
+	}
+	.mui-scroll{
+		padding:10px;
+	}
+	h2{
+		font-size:18px;
+		border-left:4px solid yellow;
+		padding-left:20px;
+	}
+	
+	ul{
+		width:100%;
+		display: flex;
+		flex-wrap: wrap;
+		margin-bottom:20px;
+		li{
+			color:gray;
+			margin-right:10px;
+			margin-top:10px;
+			font-size:12px;
+			padding:2px 10px;
+			border:1px solid gray;
+			border-radius: 8px;
+		}
+	}
+}
