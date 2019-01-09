@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/index.css">
+		<link href="./css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mui.picker.min.css">
+		<link rel="stylesheet" href="css/mui.poppicker.css">
+		<link rel="stylesheet" href="css/mui.dtpicker.css">
+	</head>
+
+	<body>
+		<!-- 主界面不动、菜单移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable mui-slide-in">
+		  <!-- 菜单容器 -->
+		  <aside class="mui-off-canvas-left" id="offCanvasSide">
+			<div class="mui-scroll-wrapper">
+			  <div class="mui-scroll">
+				<!-- 菜单具体展示内容 -->
+				侧边栏
+			  </div>
+			</div>
+		  </aside>
+		  <!-- 主页面容器 -->
+		  <div class="mui-inner-wrap index-wrap">
+			<!-- 主页面标题 -->
+			<header class="header">
+				<div class="free-wrap">
+					<span>本月花费<i>8036</i></span>
+					<span>本月收入<i>9090</i></span>
+				</div>
+				<div class="select-timer">
+					<span class="select-status">月</span>
+					<span class="select-date">2018-11</span>
+				</div>
+			</header>
+			<div class="mui-content">
+				<!-- 内容top -->
+				<div class="con-top">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide"></a>
+				</div>
+				<!-- 内容部分 -->
+				<div class="con">
+					<!-- 账单wrap -->
+					<div class="bill-wrap">
+						
+						<!-- 按年展示的列表 -->
+						<div class="year-wrap none">
+							按年展示
+							<!-- <div class="mui-scroll-wrapper">
+								<div class="mui-scroll">
+									
+								</div>
+							</div> -->
+						</div>
+						<!-- 按月展示的列表 -->
+						<div class="month-wrap">
+							按月展示
+						</div>
+					</div>
+					
+					<!-- 图表wrap -->
+					<div class="table-wrap none">
+						图表div
+					</div>
+				</div>
+				
+			</div>  
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active">
+					<span class="mui-icon mui-icon-home"></span>
+					<span class="mui-tab-label">首页</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-icon mui-icon-phone"></span>
+					<span class="mui-tab-label">电话</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-icon mui-icon-email"></span>
+					<span class="mui-tab-label">邮件</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-icon mui-icon-gear"></span>
+					<span class="mui-tab-label">设置</span>
+				</a>
+			</nav>
+			<div class="mui-off-canvas-backdrop"></div>
+		  </div>
+		</div>
+		<script src="js/libs/require.js" data-main="./js/page/index.js"></script>
+	</body>
+
+</html>

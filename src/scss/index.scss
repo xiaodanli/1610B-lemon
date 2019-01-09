@@ -1,0 +1,61 @@
+.index-wrap{
+	display:flex;
+	flex-direction: column;
+	padding-bottom:50px;
+	.header{
+		width:100%;
+		height: 100px;
+		background: yellow;
+		.free-wrap{
+			margin-left:10px;
+			span{
+				display: block;
+				font-size:14px;
+				line-height: 30px;
+				i{
+					font-style: normal;
+				}
+				&:nth-child(1){
+					i{
+						font-size:30px;
+						display: block;
+					}
+				}
+			}
+		}
+		.select-timer{
+			position: absolute;
+			top:10px;
+			right:10px;
+			span{
+				border:1px solid gray;
+				padding:2px 10px;
+				font-size:14px;
+				margin-left:10px;
+				border-radius: 6px;
+			}
+		}
+	}
+	.mui-content{
+		width:100%;
+		flex:1;
+		display: flex;
+		flex-direction: column;
+		.con-top{
+			width:100%;
+			height: 40px;
+			background: pink;
+		}
+		.con{
+			width:100%;
+			flex:1;
+			background: blue;
+			.bill-wrap,.table-wrap,.year-wrap,.month-wrap{
+				width:100%;
+				height: 100%;
+				background: green;
+			}
+		}
+	}
+}
+
