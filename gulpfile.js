@@ -17,7 +17,12 @@ gulp.task('watch',function(){
 gulp.task('devServer',function(){
 	return gulp.src('src')
 	.pipe(server({
-		port:8787
+		port:8787,
+		proxies:[
+			{source:'/classify/api/iconlist',target:'http://localhost:3000/classify/api/iconlist'},
+			{source:'/users/api/addUser',target:'http://localhost:3000/users/api/addUser'},
+			{source:'/classify/api/addClassify',target:'http://localhost:3000/classify/api/addClassify'}
+		]
 	}))
 })
 

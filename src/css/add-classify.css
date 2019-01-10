@@ -1,0 +1,45 @@
+.mui-content {
+  background: #fff; }
+
+.choose-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px 0 15px 15px;
+  border-bottom: 1px solid gray; }
+  .choose-wrap .mui-icon {
+    padding: 6px;
+    background: yellow;
+    border-radius: 50%; }
+  .choose-wrap input {
+    border: none;
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 0; }
+
+.mui-slider-item > ul {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; }
+  .mui-slider-item > ul li {
+    width: 20%;
+    overflow: hidden; }
+    .mui-slider-item > ul li span {
+      width: 40px;
+      height: 40px;
+      display: block;
+      margin: 10px auto 0 auto;
+      background: yellow;
+      border-radius: 50%;
+      line-height: 40px;
+      text-align: center; }
+
+.save-btn {
+  width: 80%;
+  border-radius: 10px;
+  background: yellow;
+  color: #fff;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%); }

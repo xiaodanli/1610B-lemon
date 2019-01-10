@@ -30,9 +30,7 @@ require(['../js/config.js'],function(){
 			//选择时间
 			dom('.timer').addEventListener('tap',function(){
 				dtpicker.show(function(selectItems){
-					console.log(selectItems);
 					_chooseTime.innerHTML = selectItems.text;
-					
 				})
 			})
 			

@@ -6,7 +6,8 @@ require.config({
 		'poppicker':'./libs/mui.poppicker',
 		'dtpicker':'./libs/mui.dtpicker',
 		
-		'dom':'./common/dom'
+		'dom':'./common/dom',
+		'getUid':'./common/getUid'
 	},
 	shim:{
 		'picker':{
