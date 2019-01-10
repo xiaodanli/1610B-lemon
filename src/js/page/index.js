@@ -136,6 +136,11 @@ require(['./js/config.js'],function(){
 					_tableWrap.style.display = 'block';
 				}
 			})
+		
+			//去添加账单界面
+			dom('.go-add').addEventListener('tap',function(){
+				location.href="../../page/add-bill.html";
+			})
 		}
 		
 		init()

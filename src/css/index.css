@@ -135,3 +135,18 @@
     padding: 2px 10px;
     border: 1px solid gray;
     border-radius: 8px; }
+
+.go-add {
+  background: yellow;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  padding: 14px;
+  display: block;
+  text-align: center;
+  line-height: 60px;
+  border-radius: 50%; }
+  .go-add.mui-icon {
+    font-size: 40px; }

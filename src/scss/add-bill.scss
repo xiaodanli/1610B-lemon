@@ -1,0 +1,123 @@
+html,body,.wrap{
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	background: #fff;
+}
+
+.header{
+	width:100%;
+	height: 100px;
+	background: yellow;
+	.h-top{
+		width:100%;
+		height: 40px;
+		padding-top:7px;
+		.tab-list{
+			width:80px;
+			height: 26px;
+			display: flex;
+			border:1px solid gray;
+			border-radius: 10px;
+			margin:0 auto;
+			overflow: hidden;
+			span{
+				flex:1;
+				text-align: center;
+				line-height: 26px;
+				font-size:12px;
+				&.active{
+					background:#000;
+					color:yellow;
+				}
+			}
+		}
+	}
+	.mui-icon-back{
+		width:40px;
+		height: 40px;
+		position: absolute;
+		left:0;
+		top:0;
+		text-align: center;
+		line-height: 40px;
+		display: block;
+	}
+}
+
+.h-btm{
+	margin:10px 15px;
+	height: 40px;
+	border-bottom:1px solid gray;
+	text-align: center;
+	span{
+		line-height: 40px;
+		border-right:1px solid gray;
+	}
+}
+
+.mui-slider-item{
+	&>div{
+		display:flex;
+		flex-wrap: wrap;
+		dl{
+			width:25%;
+			margin-top:10px;
+			dt{
+				width:40px;
+				height: 40px;
+				border-radius: 50%;
+				background: #eee;
+				text-align: center;
+				line-height: 40px;
+				margin:0 auto;
+			}
+			dd{
+				width:40px;
+				margin:0 auto;
+				text-align: center;
+			}
+			&.active{
+				dt{
+					background: yellow;
+				}
+			}
+		}
+	}
+}
+
+.timer{
+	padding-left:15px;
+	margin-top:10px;
+}
+
+.keyword{
+	width:100%;
+	position: absolute;
+	left:0;
+	bottom: 0;
+	ul{
+		width:100%;
+		display: flex;
+		border-top:1px solid gray;
+		border-left:1px solid gray;
+		li{
+			width:25%;
+			span{
+				width:100%;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				display: block;
+				border-right:1px solid gray;
+				border-bottom:1px solid gray;
+			}
+			&:nth-child(4){
+				span{
+					height:160px;
+					line-height: 160px;
+				}
+			}
+		}
+	}
+}
