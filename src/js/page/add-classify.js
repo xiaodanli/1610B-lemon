@@ -1,5 +1,5 @@
 require(['../js/config.js'],function(){
-	require(['mui','dom','getUid'],function(mui,dom,getUid){
+	require(['mui','dom','getUid','format'],function(mui,dom,getUid,format){
 		
 		function init(){
 			mui.init();
@@ -32,13 +32,8 @@ require(['../js/config.js'],function(){
 		//渲染图标
 		function renderIcon(data){
 			
-			var target = [];
 			
-			var num = Math.ceil(data.length/15);
-			
-			for(var i = 0;i<num;i++){
-				target.push(data.splice(0,15));
-			}
+			var target = format(data,15);
 			
 			console.log(target);
 			
@@ -53,6 +48,8 @@ require(['../js/config.js'],function(){
 			})
 			
 			dom('.mui-slider-group').innerHTML = str;
+
+			mui('.mui-slider').slider();  //触发轮播
 			
 		}
 		

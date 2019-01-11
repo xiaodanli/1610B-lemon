@@ -21,7 +21,9 @@ gulp.task('devServer',function(){
 		proxies:[
 			{source:'/classify/api/iconlist',target:'http://localhost:3000/classify/api/iconlist'},
 			{source:'/users/api/addUser',target:'http://localhost:3000/users/api/addUser'},
-			{source:'/classify/api/addClassify',target:'http://localhost:3000/classify/api/addClassify'}
+			{source:'/classify/api/addClassify',target:'http://localhost:3000/classify/api/addClassify'},
+			{source:'/classify/api/getClassify',target:'http://localhost:3000/classify/api/getClassify'},
+			{source:'/bill/api/addBill',target:'http://localhost:3000/bill/api/addBill'}
 		]
 	}))
 })

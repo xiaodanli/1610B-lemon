@@ -7,7 +7,8 @@ require.config({
 		'dtpicker':'./libs/mui.dtpicker',
 		
 		'dom':'./common/dom',
-		'getUid':'./common/getUid'
+		'getUid':'./common/getUid',
+		'format':'./common/format'
 	},
 	shim:{
 		'picker':{
