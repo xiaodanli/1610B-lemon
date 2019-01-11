@@ -1,5 +1,5 @@
 require(['../js/config.js'],function(){
-	require(['mui','dom','getUid','format'],function(mui,dom,getUid,format){
+	require(['mui','dom','getUid','format','getparams'],function(mui,dom,getUid,format,getparams){
 		
 		function init(){
 			mui.init();
@@ -72,7 +72,9 @@ require(['../js/config.js'],function(){
 				
 				var icon = _chooseIcon.className,
 					intro = dom('.c-name').value,
-					type = '收入';
+					type = decodeURI(getparams.type);
+
+				console.log(type)
 					
 				if(!icon || !intro || !type){
 					alert("图标或者说明或收支类型不存在");

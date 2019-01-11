@@ -74,15 +74,39 @@ require(['../js/config.js'],function(){
 			});
 			
 			dom('.mui-slider-group').innerHTML = cStr;
+
+			var items = Array.from(dom('.mui-slider-group').querySelectorAll('.mui-slider-item'));
 			
-			var firstItem = Array.from(dom('.mui-slider-group').querySelectorAll('.mui-slider-item'))[0];
+			var firstItem = items[0],
+				lastDiv= items[items.length - 1].querySelector('div');
 			
 			console.log(firstItem);
 			
 			var firstDl = Array.from(firstItem.querySelectorAll('dl'))[0];
 			
 			firstDl.classList.add('active');
-			
+
+			//自定义
+			var custom = `
+				<dl class="custom">
+					<dt>
+						<span class="mui-icon mui-icon-plus"></span>
+					</dt>
+					<dd>自定义</dd>
+				</dl>
+			`;
+
+			if(lastDiv.querySelectorAll('dl').length == 8){
+
+				var newItem = `<div class="mui-slider-item"><div>`;
+					newItem += custom;
+					newItem +=`</div></div>`;
+				dom('.mui-slider-group').innerHTML += newItem;
+
+			}else{
+				lastDiv.innerHTML += custom;
+			}
+
 			console.log(firstDl);
 			
 			mui('.mui-slider').slider();
@@ -148,6 +172,10 @@ require(['../js/config.js'],function(){
 				}
 				
 				this.classList.add('active');
+
+				if(this.className === 'custom active'){
+					location.href="../../page/add-classify.html?type="+type;
+				}
 			})
 			
 			//选择时间
