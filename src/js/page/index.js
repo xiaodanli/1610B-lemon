@@ -1,5 +1,5 @@
 require(['./js/config.js'],function(){
-	require(['mui','dom','picker','poppicker','dtpicker'],function(mui,dom){
+	require(['mui','dom','getUid','picker','poppicker','dtpicker'],function(mui,dom,getUid){
 		
 		// alert(1)
 		function init(){
@@ -14,8 +14,53 @@ require(['./js/config.js'],function(){
 			
 			//添加点击事件
 			addEvent();
+			
+			//获取分类
+			loadClassify();
 		}
 		
+		//获取分类
+		
+		function loadClassify(){
+			getUid(function(uid){
+				mui.ajax('/classify/api/getClassify',{
+					data:{
+						uid:uid
+					},
+					dataType:'json',
+					success:function(res){
+						if(res.code === 1){
+							//渲染分类
+							renderClassify(res.data);
+						}
+					},
+					error:function(error){
+						console.warn(error);
+					}
+				})
+			})
+		}
+		
+		function renderClassify(data){
+			var payC = [],
+					comC = [];
+			data.forEach(function(item){
+				if(item.type === '支出'){
+					payC.push(item);
+				}else{
+					comC.push(item);
+				}
+			})
+			
+			dom('.pay-c').innerHTML = renderC(payC);
+			dom('.com-c').innerHTML = renderC(comC);
+		}
+		
+		function renderC(data){
+			return data.map(function(item){
+				return `<li>${item.intro}</li>`
+			}).join('')
+		}
 		
 		var picker = null,
 			dtPicker = null,
@@ -140,6 +185,59 @@ require(['./js/config.js'],function(){
 			//去添加账单界面
 			dom('.go-add').addEventListener('tap',function(){
 				location.href="../../page/add-bill.html";
+			})
+		
+			//点击收支类型
+			mui('.type').on('tap','li',function(){
+				
+				var id = this.getAttribute('data-id');
+				
+				var classifyEles = document.querySelectorAll('.classify');
+				
+				var lis = classifyEles[id].querySelectorAll('li');
+				
+				if(this.className.indexOf('active') != -1){
+					this.classList.remove('active');
+					for(var i = 0;i<lis.length;i++){
+						lis[i].classList.remove('active');
+					}
+				}else{
+					this.classList.add('active');
+					for(var i = 0;i<lis.length;i++){
+						lis[i].classList.add('active');
+					}
+				}
+			})
+			
+			//点击收支分类
+			mui('.c-all').on('tap','li',function(){
+				
+				//tlis[id]  全部支出/收入
+				if(this.className.indexOf('active') != -1){
+					this.classList.remove('active');
+				}else{
+					this.classList.add('active');
+				}
+				
+				var id = this.parentNode.getAttribute('data-id');
+				
+				var tlis = dom('.type').querySelectorAll('li');
+				
+				var lis = Array.from(this.parentNode.children);
+				
+				// some  只要有一个符合条件  返回值是boolean  true/false
+				// every 全部符合条件  返回值是boolean  true/false
+				
+				var isChecked = lis.every(function(item){
+					return item.className.indexOf('active') != -1
+				})
+				
+				if(isChecked){
+					tlis[id].classList.add('active');
+				}else{
+					tlis[id].classList.remove('active');
+				}
+				
 			})
 		}
 		
