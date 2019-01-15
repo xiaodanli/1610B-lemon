@@ -5,6 +5,7 @@ require.config({
 		'picker':'./libs/mui.picker',
 		'poppicker':'./libs/mui.poppicker',
 		'dtpicker':'./libs/mui.dtpicker',
+		'moment':'./libs/moment.min',
 		
 		
 		'dom':'./common/dom',

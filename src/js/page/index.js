@@ -1,5 +1,5 @@
 require(['./js/config.js'],function(){
-	require(['mui','dom','getUid','picker','poppicker','dtpicker'],function(mui,dom,getUid){
+	require(['mui','dom','getUid','moment','picker','poppicker','dtpicker'],function(mui,dom,getUid,moment){
 		
 		// alert(1)
 		function init(){
@@ -17,8 +17,250 @@ require(['./js/config.js'],function(){
 			
 			//获取分类
 			loadClassify();
+			
+			
 		}
 		
+		//获取账单
+		
+		/*
+			[{1-11},{1-11},{1-14},{1-14}]
+			
+			格式化成下面格式
+			
+			//第一步：
+			{
+				 '1-11':{
+						timer:'1-11',
+						list:[],
+						totalPay:0
+					},
+					'1-14':{
+						timer:'1-14',
+						list:[],
+						totalPay:0
+					}
+			}
+			
+			第二步：
+			for in 
+			
+			[{
+				timer:'1-11',
+				list:[],
+				totalPay:0
+			},{}]
+			
+			
+			
+		*/
+		function loadBill(intros){
+				var timer = _selectDate.innerHTML;
+				
+				getUid(function(uid){
+					mui.ajax('/bill/api/getBill',{
+						dataType:'json',
+						data:{
+							timer:timer,
+							intros:intros,
+							uid:uid
+						},
+						success:function(res){
+							if(res.code === 1){
+								billData = res.data;
+								//渲染账单
+								if(status === 'month'){
+									renderMonthBill(res.data);
+								}else{
+									renderYearBill(res.data);
+								}
+							}
+						},
+						error:function(error){
+							console.warn(error);
+						}
+					})	
+				})
+		}
+		
+		//渲染账单
+		
+		var monthTotalPay = 0,  //每月支出的总钱数
+			  monthTotalCom = 0,  //每月收入的总钱数
+				yearTotalPay = 0,   //每年支出的总钱数
+				yearTotalCom = 0,   //每年收入的总钱数
+				_totalPay = dom('.total-pay'),
+				_totalCom = dom('.total-com'),
+				billData = [];      
+		
+		//渲染月的账单
+		function renderMonthBill(data){
+			  var mBill = {};
+				monthTotalPay = 0;
+				monthTotalCom = 0;
+				data.forEach(function(item){
+					 var timer = moment(item.timer).format('MM-DD');  //01-14
+					 if(!mBill[timer]){
+							mBill[timer] = {
+								timer:timer,
+								list:[],
+								totalPay:0
+							};
+						}
+						mBill[timer].list.push(item);
+						
+						if(item.type === '支出'){
+							mBill[timer].totalPay += item.money*1;
+							monthTotalPay += item.money*1;
+						}else{
+							monthTotalCom += item.money*1;
+						}
+				})
+				
+				console.log(mBill);
+				
+				_totalPay.innerHTML = `本月花费<i>${monthTotalPay}</i>`;
+				_totalCom.innerHTML = `本月收入<i>${monthTotalCom}</i>`;
+				
+				var monthArr = [];
+				
+				for(var i in mBill){
+					monthArr.push(mBill[i]);
+				}
+				
+				console.log(monthArr);
+				
+				var mStr = '';
+				
+				monthArr.forEach(function(item){
+					mStr += `
+							<div class="day-item">
+								<div class="day-title">
+									<div>
+										<span class="mui-icon mui-icon-image"></span>
+										${item.timer}
+									</div>
+									<div>
+										花费<span>${item.totalPay}</span>
+									</div>
+								</div>
+								<div class="day-list">
+									<ul class="mui-table-view">`;
+					mStr += renderLi(item.list);
+					mStr +=					`</ul>
+									</div>
+								</div>
+						`;
+				});
+				
+				dom('.month-wrap').innerHTML = mStr;
+		}
+		
+		//渲染Li
+		
+		function renderLi(data){
+			return data.map(function(item){
+				return `
+					<li class="mui-table-view-cell">
+						<div class="mui-slider-right mui-disabled">
+							<a class="mui-btn mui-btn-red">删除</a>
+						</div>
+						<div class="mui-slider-handle bill-item">
+							<dl>
+								<dt>
+									<span class="${item.icon}"></span>
+								</dt>
+								<dd>${item.intro}</dd>
+							</dl>
+							<span class="${item.type === '支出' ? 'red' : 'green'}">${item.money}</span>
+						</div>
+					</li>
+				`;
+			}).join('');	
+		}
+				
+		//渲染年的账单
+		
+		function renderYearBill(data){
+			var yBill = {};
+			
+			yearTotalPay = 0;
+			
+			yearTotalCom = 0;
+			
+			data.forEach(function(item){
+				var timer = moment(item.timer).format('MM');
+				if(!yBill[timer]){
+					yBill[timer] = {
+						timer:timer,
+						list:[],
+						totalPay:0,
+						totalCom:0
+					}
+				}
+				yBill[timer].list.push(item);
+				if(item.type === '支出'){
+					yBill[timer].totalPay += item.money*1;
+					yearTotalPay += item.money*1;
+				}else{
+					yBill[timer].totalCom += item.money*1;
+					yearTotalCom += item.money*1;;
+				}
+			})
+			
+			_totalPay.innerHTML = `每年花费<i>${yearTotalPay}</i>`;
+			
+			_totalCom.innerHTML = `每年收入<i>${yearTotalCom}</i>`
+			
+			var yearArr = [];
+			
+			for(var i in yBill){
+				yearArr.push(yBill[i])
+			}
+			
+			var yStr = '';
+			
+			yearArr.forEach(function(item){
+				yStr += `
+						<div class="month-item">
+							<ul class="mui-table-view"> 
+								<li class="mui-table-view-cell mui-collapse">
+									<a class="mui-navigate-right" href="#">
+										<ol>
+											<li>
+												<span class="mui-icon mui-icon-upload"></span>
+												<span>${item.timer}</span>
+											</li>
+											<li class="red">
+												<span>花费</span>
+												<span>${item.totalPay}</span>
+											</li>
+											<li class="green">
+												<span>收入</span>
+												<span>${item.totalCom}</span>
+											</li>
+											<li class="gray">
+												<span>结余</span>
+												<span>${item.totalCom - item.totalPay}</span>
+											</li>
+										</ol>
+									</a>
+									<div class="mui-collapse-content">
+										<ul class="mui-table-view">`;
+					yStr += renderLi(item.list);						
+					yStr+=	`</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+				`;
+				
+				dom('.year-wrap').innerHTML = yStr;
+			})
+			
+		}
+		
+		var intros = [];
 		//获取分类
 		
 		function loadClassify(){
@@ -32,6 +274,12 @@ require(['./js/config.js'],function(){
 						if(res.code === 1){
 							//渲染分类
 							renderClassify(res.data);
+							
+							res.data.forEach(function(item){
+								intros.push(item.intro);
+							})
+							//获取账单
+							loadBill(intros);
 						}
 					},
 					error:function(error){
@@ -133,7 +381,9 @@ require(['./js/config.js'],function(){
 						_monthWrap.style.display = 'none';
 						_yearWrap.style.display = 'block';
 						
+						// renderYearBill(billData);
 					}
+					loadBill(intros);
 				})
 			})
 			
@@ -149,6 +399,7 @@ require(['./js/config.js'],function(){
 					}else{
 						_selectDate.innerHTML = curYear;
 					}
+					loadBill(intros);
 				})
 			})
 			

@@ -254,7 +254,10 @@ require(['../js/config.js'],function(){
 						type:'post',
 						dataType:'json',
 						success:function(res){
-							console.log(res)
+							console.log(res);
+							if(res.code === 1){
+								location.href="../../index.html";
+							}
 						},
 						error:function(error){
 							console.warn(error)
