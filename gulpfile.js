@@ -24,7 +24,8 @@ gulp.task('devServer',function(){
 			{source:'/classify/api/addClassify',target:'http://localhost:3000/classify/api/addClassify'},
 			{source:'/classify/api/getClassify',target:'http://localhost:3000/classify/api/getClassify'},
 			{source:'/bill/api/addBill',target:'http://localhost:3000/bill/api/addBill'},
-			{source:'/bill/api/getBill',target:'http://localhost:3000/bill/api/getBill'}
+			{source:'/bill/api/getBill',target:'http://localhost:3000/bill/api/getBill'},
+			{source:'/bill/api/delBill',target:'http://localhost:3000/bill/api/delBill'}
 		]
 	}))
 })

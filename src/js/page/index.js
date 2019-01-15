@@ -18,7 +18,14 @@ require(['./js/config.js'],function(){
 			//获取分类
 			loadClassify();
 			
-			
+			//初始化滚动
+			initScroll();
+		}
+		
+		function initScroll(){
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
 		}
 		
 		//获取账单
@@ -54,7 +61,7 @@ require(['./js/config.js'],function(){
 			
 			
 		*/
-		function loadBill(intros){
+		function loadBill(cids){
 				var timer = _selectDate.innerHTML;
 				
 				getUid(function(uid){
@@ -62,7 +69,7 @@ require(['./js/config.js'],function(){
 						dataType:'json',
 						data:{
 							timer:timer,
-							intros:intros,
+							cid:cids,
 							uid:uid
 						},
 						success:function(res){
@@ -132,7 +139,7 @@ require(['./js/config.js'],function(){
 				
 				var mStr = '';
 				
-				monthArr.forEach(function(item){
+				monthArr.forEach(function(item,index){
 					mStr += `
 							<div class="day-item">
 								<div class="day-title">
@@ -141,12 +148,12 @@ require(['./js/config.js'],function(){
 										${item.timer}
 									</div>
 									<div>
-										花费<span>${item.totalPay}</span>
+										花费<span class="day-pay">${item.totalPay}</span>
 									</div>
 								</div>
 								<div class="day-list">
 									<ul class="mui-table-view">`;
-					mStr += renderLi(item.list);
+					mStr += renderLi(item.list,index);
 					mStr +=					`</ul>
 									</div>
 								</div>
@@ -158,12 +165,12 @@ require(['./js/config.js'],function(){
 		
 		//渲染Li
 		
-		function renderLi(data){
+		function renderLi(data,index){
 			return data.map(function(item){
 				return `
 					<li class="mui-table-view-cell">
 						<div class="mui-slider-right mui-disabled">
-							<a class="mui-btn mui-btn-red">删除</a>
+							<a class="mui-btn mui-btn-red" data-id="${index}" data-lid="${item._id}" data-money="${item.money}" data-type="${item.type}">删除</a>
 						</div>
 						<div class="mui-slider-handle bill-item">
 							<dl>
@@ -260,7 +267,7 @@ require(['./js/config.js'],function(){
 			
 		}
 		
-		var intros = [];
+		var cids = [];
 		//获取分类
 		
 		function loadClassify(){
@@ -276,10 +283,10 @@ require(['./js/config.js'],function(){
 							renderClassify(res.data);
 							
 							res.data.forEach(function(item){
-								intros.push(item.intro);
+								cids.push(item._id);
 							})
 							//获取账单
-							loadBill(intros);
+							loadBill(cids);
 						}
 					},
 					error:function(error){
@@ -306,7 +313,7 @@ require(['./js/config.js'],function(){
 		
 		function renderC(data){
 			return data.map(function(item){
-				return `<li>${item.intro}</li>`
+				return `<li data-cid="${item._id}">${item.intro}</li>`
 			}).join('')
 		}
 		
@@ -383,7 +390,7 @@ require(['./js/config.js'],function(){
 						
 						// renderYearBill(billData);
 					}
-					loadBill(intros);
+					loadBill(cids);
 				})
 			})
 			
@@ -399,7 +406,7 @@ require(['./js/config.js'],function(){
 					}else{
 						_selectDate.innerHTML = curYear;
 					}
-					loadBill(intros);
+					loadBill(cids);
 				})
 			})
 			
@@ -458,7 +465,27 @@ require(['./js/config.js'],function(){
 						lis[i].classList.add('active');
 					}
 				}
+				
+				classIfybill();
 			})
+			
+			function classIfybill(){
+				var acitveLis = dom('.c-all').querySelectorAll('.active'),
+						lis = dom('.c-all').querySelectorAll('li');
+				
+				var classifyArr = [];
+				
+				if(acitveLis.length){
+					for(var c = 0;c<acitveLis.length;c++){
+						classifyArr.push(acitveLis[c].getAttribute('data-cid'));
+					}
+				}else{
+					for(var c = 0;c<lis.length;c++){
+						classifyArr.push(lis[c].getAttribute('data-cid'));
+					}
+				}
+				loadBill(classifyArr);
+			}
 			
 			//点击收支分类
 			mui('.c-all').on('tap','li',function(){
@@ -489,6 +516,64 @@ require(['./js/config.js'],function(){
 					tlis[id].classList.remove('active');
 				}
 				
+				classIfybill();
+			})
+		
+		 //点击删除  1.去库里删除此账单 2.减钱   3.节点删除
+		 mui('.bill-wrap').on('tap','.mui-btn',function(event){
+				//
+				var elem = this;
+				var li = elem.parentNode.parentNode;
+				var btnArray = ['确认', '取消'];
+				mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+					var lid = elem.getAttribute('data-lid'),
+							money = elem.getAttribute('data-money'),
+							type = elem.getAttribute('data-type'),
+							id = elem.getAttribute('data-id');
+					if (e.index == 0) {
+						console.log("确定");
+						mui.ajax('/bill/api/delBill',{
+							data:{
+								lid:lid
+							},
+							dataType:'json',
+							success:function(res){
+								console.log(res);
+								if(res.code === 1){
+									if(status === 'month'){
+										
+										//月删除账单
+										if(type === '支出'){
+											var dayPay = document.querySelectorAll('.day-item')[id].querySelector('.day-pay');
+											dayPay.innerHTML -= money*1;
+											monthTotalPay -= money*1;
+											_totalPay.innerHTML = `本月花费:<i>${monthTotalPay}</i>`;
+										}else{
+												monthTotalCom -= money*1;
+												_totalCom.innerHTML = `本月收入:<i>${monthTotalCom}</i>`;
+										}
+										if(li.parentNode.children.length > 1){
+											li.parentNode.removeChild(li);
+										}else{
+											dom('.month-wrap').removeChild(document.querySelectorAll('.day-item')[id]);
+										}
+									}else{
+										//年删除账单
+									}
+								}
+								alert(res.msg)
+							},
+							error:function(error){
+								console.warn(error)
+							}
+						})
+						// li.parentNode.removeChild(li);
+					} else {
+						setTimeout(function() {
+							mui.swipeoutClose(li);
+						}, 0);
+					}
+				});
 			})
 		}
 		
